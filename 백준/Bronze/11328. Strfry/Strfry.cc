@@ -20,6 +20,7 @@ int main(){
 			continue;
 		}
 		
+		// 하나의 문자열이 끝나면 배열 초기화를 해야 함
 		flag = true;
 		for(int i = 0; i < 26; i++) {
 			alpha1[i] = 0;
