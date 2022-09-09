@@ -18,6 +18,7 @@ int main(){
 	}
 	
 	// s = 0 여학생, s = 1 남학생
+	// 나머지가 있을 경우 cnt 하나 증가해야 함
 	for(int i = 1; i <= 6; i++) {
 		cnt += grooms[i] / k;
 		if(grooms[i] % k) cnt++;
