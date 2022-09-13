@@ -30,5 +30,4 @@ int main() {
 	for(char c : chars) {
 		cout << c;
 	}
-	
 }
