@@ -18,14 +18,12 @@ int main() {
 	for(int i = 0; i < n; i++) {
 		cur = nums[i];
 		
+		while(S.size() && S.top().second < cur)
+			S.pop();
+
 		if(S.empty()) cout << "0 ";
-		else {
-			while(S.size() && S.top().second < cur)
-				S.pop();
-			
-			if(S.empty()) cout << "0 ";
-			else cout << S.top().first << " ";
-		}
+		else cout << S.top().first << " ";
+		
 		S.push({i + 1, cur});
 	}
 }
