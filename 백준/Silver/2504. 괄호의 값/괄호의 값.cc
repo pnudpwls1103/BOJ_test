@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool flag = true;
 int result = 0;
 string str;
 stack<int> S;
@@ -19,17 +18,17 @@ int main() {
 				int temp = S.top();
 				if(temp == '(') break;
 				if(temp == '[') {
-					flag = false;
-					break;
+					cout << 0;
+					return 0;
 				}
 				
 				S.pop();
 				num += temp;
 			}
 			
-			if(S.empty() || !flag){
-				flag = false;
-				break;
+			if(S.empty()){
+				cout << 0;
+				return 0;
 			}
 			S.pop();
 			if(num == 0) num = -1;
@@ -40,17 +39,17 @@ int main() {
 				int temp = S.top();
 				if(temp == '[') break;
 				if(temp == '(') {
-					flag = false;
-					break;
+					cout << 0;
+					return 0;
 				}
 				
 				S.pop();
 				num += temp;
 			}
 			
-			if(S.empty() || !flag){
-				flag = false;
-				break;
+			if(S.empty()){
+				cout << 0;
+				return 0;
 			}
 			
 			S.pop();
@@ -58,16 +57,16 @@ int main() {
 			S.push(num * 3);
 		}
 		else {
-			flag = false;
-			break;
+			cout << 0;
+            return 0;
 		}
 	}
 	
 	
-	while(flag && S.size()) {
+	while(S.size()) {
 		if(S.top() == '(' || S.top() == '[') {
-			result = 0;
-			break;
+			cout << 0;
+			return 0;
 		}
 		
 		result += S.top();
