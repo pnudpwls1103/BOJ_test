@@ -7,7 +7,6 @@ int dy[] = {0, 1, 0, -1};
 
 int n, m;
 int tomato[1000][1000];
-int vis[1000][1000];
 queue<pair<int, int>> Q;
 
 int main() {
