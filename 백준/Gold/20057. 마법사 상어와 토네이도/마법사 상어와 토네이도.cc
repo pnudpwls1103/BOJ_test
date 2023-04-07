@@ -26,15 +26,6 @@ int sy[4][9] = {
 
 float sand[] = { 0.05, 0.1, 0.1, 0.02, 0.07, 0.07, 0.02, 0.01, 0.01 };
 
-void debug() {
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			cout << temp[i][j] << ' ';
-		}
-		cout << '\n';
-	}
-}
-
 void input() {
 	cin >> n;
 	for (int i = 0; i < n; i++) {
