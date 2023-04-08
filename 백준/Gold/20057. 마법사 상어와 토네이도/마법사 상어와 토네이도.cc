@@ -1,30 +1,27 @@
 #include <iostream>
-#include <vector>
-#include <deque>
+#define MAX 500
+#define X first
+#define Y second
 using namespace std;
 
-int n, answer;
-int board[500][500];
-int temp[500][500];
-
-int dir = 0;
 int dx[] = { 0, 1, 0, -1 };
 int dy[] = { -1, 0, 1, 0 };
+float sand[] = { 0.05, 0.1, 0.1, 0.02, 0.07, 0.07, 0.02, 0.01, 0.01 };
 int sx[4][9] = {
-	{ 0, -1, 1, -2, -1, 1, 2, -1, 1 },
+	{ 0, 1, -1, 2, 1, -1, -2, 1, -1 },
 	{ 2, 1, 1, 0, 0, 0, 0, -1, -1 },
 	{ 0, -1, 1, -2, -1, 1, 2, -1, 1 },
-	{ -2, -1, -1, 0, 0, 0, 0, 1, 1}
+	{ -2, -1, -1, 0, 0, 0, 0, 1, 1 }
 };
-
 int sy[4][9] = {
 	{ -2, -1, -1, 0, 0, 0, 0, 1, 1 },
-	{ 0, -1, 1, -2, -1, 1, 2, -1, 1},
+	{ 0, -1, 1, -2, -1, 1, 2, -1, 1 },
 	{ 2, 1, 1, 0, 0, 0, 0, -1, -1 },
 	{ 0, 1, -1, 2, 1, -1, -2, 1, -1}
 };
 
-float sand[] = { 0.05, 0.1, 0.1, 0.02, 0.07, 0.07, 0.02, 0.01, 0.01 };
+int n, answer;
+int board[MAX][MAX];
 
 void input() {
 	cin >> n;
@@ -36,50 +33,43 @@ void input() {
 }
 
 void solution() {
-	int flag = false;
-	int x = n / 2;
-	int y = n / 2;
-	int moveCnt = 0;
+	int dir = 0;
 	int length = 1;
-
+	int moveCnt = 0;
+	int x = n / 2, y = n / 2;
 	while (true) {
 		moveCnt++;
-		for (int k = 0; k < length; k++) {
+		for (int i = 0; i < length; i++) {
 			x += dx[dir];
 			y += dy[dir];
 
-			int a = board[x][y];
-			for (int i = 0; i < 9; i++) {
-				int nx = x + sx[dir][i];
-				int ny = y + sy[dir][i];
-				int sandAdd = sand[i] * board[x][y];
-				a -= sandAdd;
+			if (x == 0 && y == -1) return;
+
+			int base = board[x][y];
+			for (int j = 0; j < 9; j++) {
+				int nx = x + sx[dir][j];
+				int ny = y + sy[dir][j];
+				int s = board[x][y] * sand[j];
+				base -= s;
 
 				if (nx < 0 || nx >= n || ny < 0 || ny >= n) {
-					answer += sandAdd;
+					answer += s;
 				}
 				else {
-					board[nx][ny] += sandAdd;
+					board[nx][ny] += s;
 				}
 			}
 
 			int nx = x + dx[dir];
 			int ny = y + dy[dir];
 			if (nx < 0 || nx >= n || ny < 0 || ny >= n) {
-				answer += a;
+				answer += base;
 			}
 			else {
-				board[nx][ny] += a;
+				board[nx][ny] += base;
 			}
 			board[x][y] = 0;
-
-			if (x == 0 && y == 0) {
-				flag = true;
-				break;
-			}
 		}
-
-		if (flag) break;
 
 		if (moveCnt == 2) {
 			length++;
