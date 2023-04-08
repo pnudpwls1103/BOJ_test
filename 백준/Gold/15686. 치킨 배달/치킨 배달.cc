@@ -1,44 +1,40 @@
 #include <iostream>
-#include <algorithm>
 #include <vector>
 #include <deque>
+#define MAX 50
 #define X first
 #define Y second
 using namespace std;
 
 struct PLACE {
-	int x = 0;
-	int y = 0;
-	int dist = 0;
+	int x;
+	int y;
+	int dist;
 
 	PLACE(int _x, int _y, int _dist) {
 		x = _x;
 		y = _y;
-		_dist = dist;
+		dist = _dist;
 	}
 };
 
 int n, m, answer;
-int board[55][55];
+int vis[13];
+int board[MAX][MAX];
+vector< pair<int, int> > chicken;
 vector<PLACE> house;
-vector<pair<int, int>> chicken;
-deque<pair<int, int>> choose;
-int vis[55][55];
-
-int dx[] = { 1, 0, -1, 0 };
-int dy[] = { 0, 1, 0, -1 };
 
 void input() {
 	cin >> n >> m;
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
 			cin >> board[i][j];
-			if (board[i][j] == 1) {
-				PLACE place = PLACE(i, j, 0);
-				house.push_back(place);
-			}
+
 			if (board[i][j] == 2) {
 				chicken.push_back({ i, j });
+			}
+			else if (board[i][j] == 1) {
+				house.push_back(PLACE(i, j, 0));
 			}
 		}
 	}
@@ -53,44 +49,43 @@ void calDist() {
 		house[i].dist = 0;
 	}
 
-	for (int i = 0; i < choose.size(); i++) {
-		pair<int, int> cur = choose[i];
+	for (int i = 0; i < chicken.size(); i++) {
+		if (!vis[i]) continue;
 
+		pair<int, int> ch = chicken[i];
 		for (int j = 0; j < house.size(); j++) {
 			PLACE h = house[j];
-			int temp = abs(h.x, cur.X) + abs(h.y, cur.Y);
+			int temp = abs(ch.X, h.x) + abs(ch.Y, h.y);
 
-			if (house[j].dist == 0 || house[j].dist > temp)
+			if (h.dist == 0 || h.dist > temp) {
 				house[j].dist = temp;
+			}
 		}
 	}
 }
 
-void getMinDistance() {
+void calAns() {
 	int temp = 0;
 	for (int i = 0; i < house.size(); i++) {
 		temp += house[i].dist;
 	}
 
-	if (answer == 0 || answer > temp) answer = temp;
+	if (answer == 0 || answer > temp)
+		answer = temp;
 }
 
 void dfs(int start, int cnt) {
 	if (cnt == m) {
 		calDist();
-		getMinDistance();
+		calAns();
 		return;
 	}
 
-	pair<int, int> cur;
 	for (int i = start; i < chicken.size(); i++) {
-		cur = chicken[i];
-		if (vis[cur.X][cur.Y]) continue;
-		choose.push_back(cur);
-		vis[cur.X][cur.Y] = 1;
+		if (vis[i]) continue;		
+		vis[i] = 1;
 		dfs(i, cnt + 1);
-		vis[cur.X][cur.Y] = 0;
-		choose.pop_back();
+		vis[i] = 0;
 	}
 }
 
