@@ -1,66 +1,50 @@
 #include <bits/stdc++.h>
 using namespace std;
-char results[6600][6600];
+char paper[2200][2200];
 
-void draw_blank(int x, int y, int n)
+void solve(int n, int x, int y)
 {
-	for(int bi = x; bi < x + n; bi++)
+	if (n == 1)
 	{
-		for(int bj = y; bj < y + n; bj++)
-		{
-			results[bi][bj] = ' ';	
-		}
-	}
-}
-
-void draw(int x, int y, int n)
-{
-	if (n == 3)
-	{
-		for (int i = x; i < x+3; i++)
-		{
-			for (int j = y; j < y+3; j++)
-			{
-				results[i][j] = '*';
-			}
-		}
-		
-		results[x+1][y+1] = ' ';
+		paper[x][y] = '*';
 		return;
 	}
 	
-	int N = n / 3;
 	for (int i = 0; i < 3; i++)
 	{
-		int newX = x + i * N;
 		for (int j = 0; j < 3; j++)
 		{
-			int newY = y + j * N;
-			if (N + x <= newX && newX < 2 * N + x && N + y <= newY && newY < 2 * N + y)
+			if (i == 1 && j == 1)
 			{
-				draw_blank(newX, newY, N);
+				continue;
 			}
-			else
-			{
-				draw(newX, newY, N);
-			}
+			
+			solve(n/3, x + i * n/3, y + j * n/3);
 		}
 	}
 }
 
 int main() {
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	
 	int n;
 	cin >> n;
 	
-	draw(0, 0, n);
+	for (int i = 0; i < n; i++)
+	{
+		fill(paper[i], paper[i]+n, ' ');
+	}
 	
+	solve(n, 0, 0);
 	for (int i = 0; i < n; i++)
 	{
 		for (int j = 0; j < n; j++)
 		{
-			cout << results[i][j];
+			cout << paper[i][j];
 		}
 		cout << '\n';
 	}
+	
 	return 0;
 }
